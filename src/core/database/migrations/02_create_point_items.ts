@@ -2,7 +2,7 @@ import Knex from 'knex'
 
 export async function up(knex: Knex) {
   return knex.schema.createTableIfNotExists('point_items', (table) => {
-    table.uuid('id').primary()
+    table.integer('id').primary()
     table.integer('fk_id_point').references('id').inTable('points').notNullable()
     table.integer('fk_id_item').references('id').inTable('items').notNullable()
   })

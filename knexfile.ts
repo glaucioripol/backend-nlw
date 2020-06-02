@@ -8,5 +8,8 @@ module.exports = {
   migrations: {
     directory: path.resolve(__dirname, 'src', 'core', 'database', 'migrations'),
   },
+  seeds: {
+    directory: path.resolve(__dirname, 'src', 'core', 'database', 'seeds'),
+  },
   useNullAsDefault: true, //para o sqlite, ele não aceita  valores default
 }

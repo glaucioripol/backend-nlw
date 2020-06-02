@@ -2,7 +2,7 @@ import Knex from 'knex'
 
 export async function up(knex: Knex) {
   return knex.schema.createTableIfNotExists('points', (table) => {
-    table.uuid('id').primary()
+    table.integer('id').primary()
     table.string('image').notNullable()
     table.string('name').notNullable()
     table.string('email').notNullable()

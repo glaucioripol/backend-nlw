@@ -6,7 +6,6 @@
 
 # knex cli
 
-rodar migrations
+- rodar migrations - espelho do banco
 
-<!-- criar script para migrar -->
-`yarn knex migrate:latest --knexfile knexfile.ts  migrate:latest`
+- rodar seeders - dados iniciais
