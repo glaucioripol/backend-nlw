@@ -4,6 +4,8 @@ module.exports = {
     es6: true
   },
   extends: [
+    'plugin:@typescript-eslint/recommended',
+    'prettier/@typescript-eslint',
     'standard'
   ],
   globals: {
@@ -19,5 +21,7 @@ module.exports = {
     '@typescript-eslint'
   ],
   rules: {
+    'space-before-function-paren': 'off',
+    'comma-dangle': 'off',
   }
 }
