@@ -16,7 +16,7 @@
     "sqlite3": "^4.2.0"
   },
   "scripts": {
-    "dev": "ts-node-dev src/index.ts",
+    "dev": "ts-node-dev --ignore node_modules src/index.ts",
     "build": "tsc",
     "migrate": "knex --knexfile knexfile.ts migrate:latest",
     "seed": "knex --knexfile knexfile.ts seed:run"

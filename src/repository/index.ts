@@ -1,7 +1,7 @@
 import { IRepository } from './types'
 import { ItemRepository, IRecordItem } from './ItemsRepository'
 
-export type RepositoryTypes = IRecordItem
+type RepositoryTypes = IRecordItem
 
 type RepositoriesNamesTypes = 'items'
 
