@@ -1,11 +1,11 @@
 import { Router } from 'express'
 
 import { pointsController } from './PointsControllers'
-import { validateBodyToCreatePoints, validateParamsGetPointById } from './JoiPoints'
+import { validateBodyToCreatePoints, validateQueryGetPoint, validateParamsGetPointById } from './JoiPoints'
 
 function createRoutes(instanceRouter = pointsController()) {
   return Router()
-    .get('/', instanceRouter.retrievePoints)
+    .get('/', validateQueryGetPoint, instanceRouter.retrievePoints)
     .get('/:id', validateParamsGetPointById, instanceRouter.show)
     .post('/', validateBodyToCreatePoints, instanceRouter.storePoints)
 }

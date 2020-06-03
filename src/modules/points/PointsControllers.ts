@@ -6,7 +6,6 @@ import { connection } from '../../core/database'
 import { factoryRepository } from '../../repository'
 import { PointsRepository } from '../../repository/PointsRepository'
 import { PointsItemRepository } from '../../repository/PointsItemRepository'
-import { ItemRepository } from '../../repository/ItemsRepository'
 
 interface IItemsController {
   retrievePoints(req: Request, res: Response): void
@@ -18,14 +17,24 @@ export function pointsController(): IItemsController {
   const pointRepository = factoryRepository('points')
 
   return {
-    retrievePoints(req: Request, res: Response) {
-      pointRepository
-        .findAll()
-        .then((data) => {
-          // refatorar
-          res.status(200).json({ data })
-        })
-        .catch(() => res.status(400).json({ error: 'try again' }))
+    async retrievePoints(req: Request, res: Response) {
+      try {
+        const { city, uf, items } = req.query
+        // não filtra se não tiver query string
+        const parsedItems = String(items)
+          .split(',')
+          .map((item) => Number(item.trim()))
+
+        const points = await connection('points')
+          .join('point_items', 'points.id', '=', 'point_items.fk_id_point')
+          .whereIn('point_items.fk_id_item', parsedItems)
+          .where('city', String(city))
+          .where('uf', String(uf))
+          .distinct()
+          .select('points.*')
+
+        return res.json({ points })
+      } catch (error) {}
     },
 
     async show(req: Request, res: Response) {
@@ -35,10 +44,7 @@ export function pointsController(): IItemsController {
         if (!consultedPoint) {
           return res.status(400).json({ message: 'Point Not Found' })
         }
-        const itemRepository = new ItemRepository()
-
-        const items = await itemRepository
-          .db('items')
+        const items = await connection('items')
           .join('point_items', 'items.id', '=', 'point_items.fk_id_item')
           .where('point_items.fk_id_point', id)
           .select('items.title')
@@ -73,6 +79,8 @@ export function pointsController(): IItemsController {
 
         const pointsItemRepositoryTransaction = new PointsItemRepository(transaction)
         const registerdPointItems = await pointsItemRepositoryTransaction.create(pointItems)
+
+        await transaction.commit() // comitar transação
 
         return res.json({ point_id, registerdPointItems })
       } catch (error) {

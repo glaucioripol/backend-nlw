@@ -20,3 +20,10 @@ const schemaGetPointById = Joi.object({
   id: Joi.number().required(),
 })
 export const validateParamsGetPointById = validator.params(schemaGetPointById)
+
+const schemaQueryStringGet = Joi.object({
+  city: Joi.string(),
+  uf: Joi.string(),
+  items: Joi.string(),
+})
+export const validateQueryGetPoint = validator.query(schemaQueryStringGet)

@@ -9,6 +9,10 @@
 - criar services das controllers
 - adicionar na controller o padrão (index: listar, show: somente um, create, update e delete)
 
+- abstração do meu repositorio ficou uma merda
+
+- não filtra se não tiver query string no points
+
 # knex cli
 
 - rodar migrations - espelho do banco
