@@ -10,7 +10,7 @@ export interface IRecordPointItem {
 }
 
 export class PointsItemRepository implements IRepository<IRecordPointItem> {
-  private db: Knex | Transaction
+  db: Knex | Transaction
   private tableName: string
 
   constructor(knexConnection = connection) {

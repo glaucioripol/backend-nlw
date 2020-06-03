@@ -3,6 +3,11 @@
 - adicionar joi nas rotas
 - adicionar banco postgres
 - adicionar repository patern
+- remover factory de repository
+- remover o que não precisa ser classe
+
+- criar services das controllers
+- adicionar na controller o padrão (index: listar, show: somente um, create, update e delete)
 
 # knex cli
 

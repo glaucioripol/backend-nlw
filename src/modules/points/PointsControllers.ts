@@ -6,9 +6,11 @@ import { connection } from '../../core/database'
 import { factoryRepository } from '../../repository'
 import { PointsRepository } from '../../repository/PointsRepository'
 import { PointsItemRepository } from '../../repository/PointsItemRepository'
+import { ItemRepository } from '../../repository/ItemsRepository'
 
 interface IItemsController {
   retrievePoints(req: Request, res: Response): void
+  show(req: Request, res: Response): void
   storePoints(req: Request, res: Response): void
 }
 
@@ -16,17 +18,38 @@ export function pointsController(): IItemsController {
   const pointRepository = factoryRepository('points')
 
   return {
-    retrievePoints(req: Request, res: Response): void {
+    retrievePoints(req: Request, res: Response) {
       pointRepository
         .findAll()
         .then((data) => {
           // refatorar
           res.status(200).json({ data })
         })
-        .catch(() => res.status(404).json({ error: 'try again' }))
+        .catch(() => res.status(400).json({ error: 'try again' }))
     },
 
-    async storePoints(req: Request, res: Response): Promise {
+    async show(req: Request, res: Response) {
+      try {
+        const { id } = req.params
+        const consultedPoint = await pointRepository.find(id).first()
+        if (!consultedPoint) {
+          return res.status(400).json({ message: 'Point Not Found' })
+        }
+        const itemRepository = new ItemRepository()
+
+        const items = await itemRepository
+          .db('items')
+          .join('point_items', 'items.id', '=', 'point_items.fk_id_item')
+          .where('point_items.fk_id_point', id)
+          .select('items.title')
+
+        return res.json({ ...consultedPoint, items })
+      } catch (err) {
+        return res.status(400).json({ err })
+      }
+    },
+
+    async storePoints(req: Request, res: Response) {
       try {
         const { name, email, whatsapp, latitude, longitude, city, uf, items } = req.body
 
@@ -53,7 +76,7 @@ export function pointsController(): IItemsController {
 
         return res.json({ point_id, registerdPointItems })
       } catch (error) {
-        return res.status(404).json({ error })
+        return res.status(400).json({ error })
       }
     },
   }

@@ -4,7 +4,7 @@ import { createValidator } from 'express-joi-validation'
 const validator = createValidator()
 
 const schemaStorePoints = Joi.object({
-  // image: Joi,
+  image: Joi.string().required(),
   name: Joi.string().required(),
   email: Joi.string().required(),
   whatsapp: Joi.string().required(),
@@ -12,6 +12,11 @@ const schemaStorePoints = Joi.object({
   longitude: Joi.number().required(),
   city: Joi.string().required(),
   uf: Joi.string().required(),
-  items: Joi.array().required()
+  items: Joi.array().required(),
 })
 export const validateBodyToCreatePoints = validator.body(schemaStorePoints)
+
+const schemaGetPointById = Joi.object({
+  id: Joi.number().required(),
+})
+export const validateParamsGetPointById = validator.params(schemaGetPointById)

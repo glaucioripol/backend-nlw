@@ -10,7 +10,7 @@ export interface IRecordItem {
 }
 
 export class ItemRepository implements IRepository<IRecord> {
-  private db: Knex | Knex.Transaction
+  db: Knex | Knex.Transaction
   private tableName: string
 
   constructor(knexConnection = connection) {

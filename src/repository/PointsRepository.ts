@@ -28,6 +28,10 @@ export class PointsRepository implements IRepository<IRecordPoint> {
     return this.db(this.tableName).select('*')
   }
 
+  find(input: number): Promise<IRecordPoint[]> {
+    return this.db(this.tableName).select('*').where('id', '=', input)
+  }
+
   create(input: Omit<IRecordPoint, keyof IRecord>): Promise<IRecordPoint[]> {
     return this.db(this.tableName).insert(input)
   }
