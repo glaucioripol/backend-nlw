@@ -10,13 +10,14 @@
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "express-joi-validation": "^4.0.3",
     "helmet": "^3.22.0",
     "joi": "^14.3.1",
     "knex": "^0.21.1",
     "sqlite3": "^4.2.0"
   },
   "scripts": {
-    "dev": "ts-node-dev --ignore node_modules src/index.ts",
+    "dev": "ts-node-dev --ignore-watch node_modules src/index.ts",
     "build": "tsc",
     "migrate": "knex --knexfile knexfile.ts migrate:latest",
     "seed": "knex --knexfile knexfile.ts seed:run"
@@ -26,6 +27,7 @@
     "@types/compression": "^1.7.0",
     "@types/cors": "^2.8.6",
     "@types/express": "^4.17.6",
+    "@types/hapi__joi": "^17.1.2",
     "@types/helmet": "^0.0.47",
     "@types/jest": "^25.2.3",
     "@typescript-eslint/eslint-plugin": "^3.0.2",

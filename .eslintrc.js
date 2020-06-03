@@ -23,5 +23,6 @@ module.exports = {
   rules: {
     'space-before-function-paren': 'off',
     'comma-dangle': 'off',
+    camelcase: 'off'
   }
 }

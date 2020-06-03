@@ -10,15 +10,15 @@ export interface IRecordItem {
 }
 
 export class ItemRepository implements IRepository<IRecord> {
-  private db: Knex
+  private db: Knex | Knex.Transaction
   private tableName: string
 
-  public constructor(knexConnection = connection) {
+  constructor(knexConnection = connection) {
     this.tableName = 'items'
     this.db = knexConnection
   }
 
-  public findAll(): Promise<IRecordItem[]> {
+  findAll(): Promise<IRecordItem[]> {
     return this.db(this.tableName).select('*')
   }
 }

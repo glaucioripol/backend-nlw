@@ -15,10 +15,14 @@ export function itemsController(): IItemsController {
         .findAll()
         .then((data) => {
           // refatorar
-          const serializedItems = data.map(({ id, title, image }) => ({ id, title, image_url: `http://localhost:${process.env.SERVER_PORT}/uploads/${image}` }))
+          const serializedItems = data.map(({ id, title, image }) => ({
+            id,
+            title,
+            image_url: `http://localhost:${process.env.SERVER_PORT}/uploads/${image}`,
+          }))
           res.status(200).json({ data: serializedItems })
         })
-        .catch(() => res.status(404).json({ error: 'try' }))
+        .catch(() => res.status(404).json({ error: 'try again' }))
     },
   }
 }
