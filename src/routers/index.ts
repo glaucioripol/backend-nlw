@@ -1,8 +1,5 @@
 import { Router } from 'express'
 
-import { UserController } from '../controllers/UserController'
+import { factoryItemsRoutes } from '../modules/items'
 
-export const router = Router()
-
-router.get('/users', UserController.index)
-router.post('/users', UserController.store)
+export const router = Router().use('/items', factoryItemsRoutes())

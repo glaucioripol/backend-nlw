@@ -11,5 +11,5 @@ module.exports = {
   seeds: {
     directory: path.resolve(__dirname, 'src', 'core', 'database', 'seeds'),
   },
-  useNullAsDefault: true, //para o sqlite, ele não aceita  valores default
+  useNullAsDefault: true, // para o sqlite, ele não aceita  valores default
 }

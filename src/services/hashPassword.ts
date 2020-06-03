@@ -1,11 +1,11 @@
 import { genSaltSync, hashSync, compareSync } from 'bcrypt'
 
-interface InterfaceHashPassword {
+interface IHashPassword {
   createHash(password: string): string
   checkHash(passwordInString: string, passwordInHash: string): boolean
 }
 
-export class HashPassword implements InterfaceHashPassword {
+export class HashPassword implements IHashPassword {
   private salt = genSaltSync(10)
 
   public createHash(password: string): string {

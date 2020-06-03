@@ -10,11 +10,4 @@ services:
       - "5432:5432"
     environment:
       POSTGRES_PASSWORD: 12345678
-      POSTGRES_DB: nome_do_banco
-    networks:
-      - db-network
-
-networks:
-  db-network:
-    driver: bridge
-
+      POSTGRES_DB: ecoleta

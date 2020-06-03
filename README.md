@@ -7,5 +7,4 @@
 # knex cli
 
 - rodar migrations - espelho do banco
-
 - rodar seeders - dados iniciais

@@ -3,7 +3,9 @@ import helmet from 'helmet'
 import cors from 'cors'
 import compression from 'compression'
 
-// import { router } from '../routers'
+import path from 'path'
+
+import { router } from '../routers'
 
 class App {
   private express: Application
@@ -12,6 +14,7 @@ class App {
     this.express = express()
     this.middlewares()
     this.routes()
+    this.serveStaticImages()
   }
 
   private middlewares(): void {
@@ -22,13 +25,17 @@ class App {
   }
 
   private routes(): void {
-    // this.express.use(router)
+    this.express.use('/api', router)
   }
 
   public start(): void {
     this.express.listen(process.env.SERVER_PORT, () => {
       console.log(`[${new Date().toLocaleString()}] - Running Api in ${process.env.SERVER_PORT}`)
     })
+  }
+
+  private serveStaticImages(): void {
+    this.express.use('/uploads', express.static(path.resolve(__dirname, '..', '..', 'uploads')))
   }
 }
 
