@@ -33,7 +33,12 @@ export function pointsController(): IItemsController {
           .distinct()
           .select('points.*')
 
-        return res.json({ points })
+        const serializedPoints = points.map((points) => ({
+          ...points,
+          image_url: `http://localhost:${process.env.SERVER_PORT}/uploads/${points.image}`,
+        }))
+
+        return res.json({ points: serializedPoints })
       } catch (error) {}
     },
 
@@ -49,7 +54,11 @@ export function pointsController(): IItemsController {
           .where('point_items.fk_id_point', id)
           .select('items.title')
 
-        return res.json({ ...consultedPoint, items })
+        return res.json({
+          ...consultedPoint,
+          image: `http://localhost:${process.env.SERVER_PORT}/uploads/${consultedPoint.image}`,
+          items,
+        })
       } catch (err) {
         return res.status(400).json({ err })
       }
@@ -64,8 +73,9 @@ export function pointsController(): IItemsController {
         const transaction: Transaction = await connection.transaction() // se um derErrado , fala o resto
 
         const pointRepositoryTransaction = new PointsRepository(transaction)
+        const cleanName = req.body.filename
         const [point_id] = await pointRepositoryTransaction.create({
-          image: 'fake',
+          image: cleanName,
           name,
           email,
           whatsapp,
@@ -75,14 +85,19 @@ export function pointsController(): IItemsController {
           uf,
         })
 
-        const pointItems = items.map((fk_id_item: number) => ({ fk_id_point: point_id, fk_id_item }))
+        const insertedPoint = await pointRepositoryTransaction.find(Number(point_id)).first()
+
+        const pointItems = items
+          .split(',')
+          .map((item: string) => Number(item.trim()))
+          .map((fk_id_item: number) => ({ fk_id_point: point_id, fk_id_item }))
 
         const pointsItemRepositoryTransaction = new PointsItemRepository(transaction)
         const registerdPointItems = await pointsItemRepositoryTransaction.create(pointItems)
 
         await transaction.commit() // comitar transação
 
-        return res.json({ point_id, registerdPointItems })
+        return res.json({ insertedPoint, registerdPointItems })
       } catch (error) {
         return res.status(400).json({ error })
       }

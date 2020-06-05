@@ -17,3 +17,8 @@
 
 - rodar migrations - espelho do banco
 - rodar seeders - dados iniciais
+
+# validador alternativo do joi
+
+- celebrate ele tem um error
+  `app.use(error())
